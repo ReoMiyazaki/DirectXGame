@@ -53,13 +53,15 @@ class GameScene {
 	// 3Dモデル
 	Model* model_ = nullptr;
 	// ワールドトランスフォーム
-	WorldTransform worldTransform_;
+	WorldTransform worldTransforms_[100];
 	// ビュープロダクション
 	ViewProjection viewProjention_;
 	// デバックカメラ
 	DebugCamera* debugCamera_ = nullptr;
 
 	const float XM_PI = 3.1415;
+
+	float viewAngle = 0.0f;
 
 	/// <summary>
 	/// ゲームシーン用
