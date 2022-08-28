@@ -2,7 +2,9 @@
 #include "GameScene.h"
 #include "TextureManager.h"
 #include "PrimitiveDrawer.h"
+#include "affine.h"
 #include <cassert>
+#include <random>
 
 GameScene::GameScene() {}
 
@@ -34,6 +36,23 @@ void GameScene::Initialize() {
 	AxisIndicator::GetInstance()->SetTargetViewProjection(&debugCamera_->GetViewProjection());
 	// ライン描画が参照するビュープロジェクションを指定する(アドレス渡し)
 	PrimitiveDrawer::GetInstance()->SetViewProjection(&debugCamera_->GetViewProjection());
+
+	affine::AffineMat affineMat;
+	Vector3 scale = { 5,5,5 };
+	Vector3 rotation = { XM_PI / 4,XM_PI / 4, XM_PI / 4, };
+	Vector3 transform = { 10, 10, 10 };
+
+	worldTransform_.scale_ = scale;
+	worldTransform_.rotation_ = rotation;
+	worldTransform_.translation_ = transform;
+
+	affine::setScaleMat(affineMat.scale, worldTransform_);
+	affine::setRotateMat(affineMat, worldTransform_);
+	affine::setTransformMat(affineMat.transform, worldTransform_);
+	worldTransform_.matWorld_ = MathUtility::Matrix4Identity();
+	affine::setTransformationWorldMat(affineMat, worldTransform_);
+
+	worldTransform_.TransferMatrix();
 }
 
 void GameScene::Update() { debugCamera_->Update(); }
@@ -64,16 +83,16 @@ void GameScene::Draw() {
 	/// <summary>
 	/// ここに3Dオブジェクトの描画処理を追加できる
 	/// </summary>
-//	model_->Draw(worldTransform_, viewProjention_, textureHandle_);
-//	model_->Draw(worldTransform_, debugCamera_->GetViewProjection(), textureHandle_);
-	for (int i = 0; i <= 10; i++) {
-		PrimitiveDrawer::GetInstance()->DrawLine3d(Vector3(-5.0f, -5.0f + 1.0f * i, 0.0f), Vector3(5.0, -5.0f + 1.0f * i, 0.0f), Vector4(1.0f, 0.0f, 0.0f, 1));
-	}
-	for (int j = 0; j <= 10; j++) {
-		PrimitiveDrawer::GetInstance()->DrawLine3d(Vector3(-5.0f + 1.0f * j, -5.0f, 0.0f), Vector3(-5.0f + 1.0f * j, 5.0f, 0.0f), Vector4(0.0f, 0.0f, 1.0f, 1));
-	}
+	model_->Draw(worldTransform_, viewProjention_, textureHandle_);
+	//	model_->Draw(worldTransform_, debugCamera_->GetViewProjection(), textureHandle_);
+	//	for (int i = 0; i <= 10; i++) {
+	//		PrimitiveDrawer::GetInstance()->DrawLine3d(Vector3(-5.0f, -5.0f + 1.0f * i, 0.0f), Vector3(5.0, -5.0f + 1.0f * i, 0.0f), Vector4(1.0f, 0.0f, 0.0f, 1));
+	//	}
+	//	for (int j = 0; j <= 10; j++) {
+	//		PrimitiveDrawer::GetInstance()->DrawLine3d(Vector3(-5.0f + 1.0f * j, -5.0f, 0.0f), Vector3(-5.0f + 1.0f * j, 5.0f, 0.0f), Vector4(0.0f, 0.0f, 1.0f, 1));
+	//	}
 
-	// 3Dオブジェクト描画後処理
+		// 3Dオブジェクト描画後処理
 	Model::PostDraw();
 #pragma endregion
 

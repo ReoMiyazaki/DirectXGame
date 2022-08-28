@@ -59,6 +59,8 @@ class GameScene {
 	// デバックカメラ
 	DebugCamera* debugCamera_ = nullptr;
 
+	const float XM_PI = 3.1415;
+
 	/// <summary>
 	/// ゲームシーン用
 	/// </summary>
