@@ -10,7 +10,6 @@ void MyFunc::Transform(WorldTransform& worldTransform, int i)
 	affine::setTransformMat(affineMat.transform, worldTransform);
 	worldTransform.matWorld_ = MathUtility::Matrix4Identity();
 	affine::setTransformationWorldMat(affineMat, worldTransform);
-
 	if (i != 0) 
 	{
 		// ƒ[ƒ‹ƒhs—ñ‚ğ‚©‚¯‚Ä‘ã“ü
