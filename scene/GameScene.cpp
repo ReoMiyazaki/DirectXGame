@@ -13,6 +13,7 @@ GameScene::~GameScene()
 {
 	delete model_;
 	delete debugCamera_;
+	delete player_;
 }
 
 void GameScene::Initialize()
@@ -26,11 +27,6 @@ void GameScene::Initialize()
 	textureHandle_ = TextureManager::Load("MagicCircle.jpg");
 	// 3Dモデルの生成
 	model_ = Model::Create();
-	for (WorldTransform& worldTransform : worldTransforms_)
-	{
-		// ワールドトランスフォームの初期化
-		worldTransform.Initialize();
-	}
 
 	// カメラの視点座標を設定
 //	viewProjection_.eye = { 0, 0, -10 };
@@ -44,7 +40,7 @@ void GameScene::Initialize()
 	// アスペクト比を設定
 //	viewProjection_.aspectRatio = 1.0f;
 	// ニアクリップ距離を設定
-	viewProjection_.nearZ = 52.0f;
+//	viewProjection_.nearZ = 52.0f;
 	// ファークリップ距離を設定
 //	viewProjection_.farZ = 53.0f;
 
@@ -67,16 +63,10 @@ void GameScene::Initialize()
 	std::uniform_real_distribution<float> rot(0, XM_PI);
 	std::uniform_real_distribution<float> trans(-10, 10);
 
-	for (WorldTransform& worldTransform : worldTransforms_)
-	{
-		Vector3 scale = { 1,1,1 };
-		Vector3 rotation = { rot(engin), rot(engin), rot(engin) };
-		Vector3 transform = { trans(engin), trans(engin), trans(engin) };
-		worldTransform.scale_ = scale;
-		worldTransform.rotation_ = rotation;
-		worldTransform.translation_ = transform;
-		MyFunc::Transform(worldTransform, 0);
-	}
+	// 自キャラの生成
+	player_ = new Player();
+	// 自キャラの初期化
+	player_->Initialize(model_, textureHandle_);
 
 }
 
@@ -160,16 +150,19 @@ void GameScene::Update()
 	}
 	// クリップ距離変更処理
 	{
-		const float nearChangeSpeed = 0.1f;
-		// 上下キーでニアクリップ距離を増減
-		if (input_->PushKey(DIK_UP)) { viewProjection_.nearZ += nearChangeSpeed; }
-		else if (input_->PushKey(DIK_DOWN)) { viewProjection_.nearZ -= nearChangeSpeed; }
-		// 行列の再計算
-		viewProjection_.UpdateMatrix();
-		// デバック用表示
-		debugText_->SetPos(50, 130);
-		debugText_->Printf("nearZ:%f", viewProjection_.nearZ);
+		//		const float nearChangeSpeed = 0.1f;
+		//		// 上下キーでニアクリップ距離を増減
+		//		if (input_->PushKey(DIK_UP)) { viewProjection_.nearZ += nearChangeSpeed; }
+		//		else if (input_->PushKey(DIK_DOWN)) { viewProjection_.nearZ -= nearChangeSpeed; }
+		//		// 行列の再計算
+		//		viewProjection_.UpdateMatrix();
+		//		// デバック用表示
+		//		debugText_->SetPos(50, 130);
+		//		debugText_->Printf("nearZ:%f", viewProjection_.nearZ);
 	}
+
+	// 自キャラの更新
+	player_->Update();
 
 }
 
@@ -199,19 +192,12 @@ void GameScene::Draw()
 	/// <summary>
 	/// ここに3Dオブジェクトの描画処理を追加できる
 	/// </summary>
-	for (WorldTransform& worldTransform : worldTransforms_)
-	{
-		model_->Draw(worldTransform, viewProjection_, textureHandle_);
-	}
-	//	model_->Draw(worldTransform_, debugCamera_->GetViewProjection(), textureHandle_);
-	//	for (int i = 0; i <= 10; i++) {
-	//		PrimitiveDrawer::GetInstance()->DrawLine3d(Vector3(-5.0f, -5.0f + 1.0f * i, 0.0f), Vector3(5.0, -5.0f + 1.0f * i, 0.0f), Vector4(1.0f, 0.0f, 0.0f, 1));
-	//	}
-	//	for (int j = 0; j <= 10; j++) {
-	//		PrimitiveDrawer::GetInstance()->DrawLine3d(Vector3(-5.0f + 1.0f * j, -5.0f, 0.0f), Vector3(-5.0f + 1.0f * j, 5.0f, 0.0f), Vector4(0.0f, 0.0f, 1.0f, 1));
-	//	}
 
-		// 3Dオブジェクト描画後処理
+	// 自キャラの描画
+	player_->Draw(viewProjection_);
+
+
+	// 3Dオブジェクト描画後処理
 	Model::PostDraw();
 #pragma endregion
 
