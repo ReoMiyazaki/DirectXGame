@@ -33,29 +33,29 @@ void GameScene::Initialize()
 	}
 
 	// カメラの視点座標を設定
-//	viewProjention_.eye = { 0, 0, -10 };
+//	viewProjection_.eye = { 0, 0, -10 };
 	// カメラ視点座標を固定
-//	viewProjention_.target = { 10, 0, 0 };
+//	viewProjection_.target = { 10, 0, 0 };
 	// カメラ上方向ベクトル設定
-//	viewProjention_.up = { cosf(XM_PI / 4), sinf(XM_PI / 4), 0.0f };
+//	viewProjection_.up = { cosf(XM_PI / 4), sinf(XM_PI / 4), 0.0f };
 
 	// カメラ垂直方向視野角を設定
-//	viewProjention_.fovAngleY = 10.0f * (XM_PI / 180);
+//	viewProjection_.fovAngleY = 10.0f * (XM_PI / 180);
 	// アスペクト比を設定
-//	viewProjention_.aspectRatio = 1.0f;
+//	viewProjection_.aspectRatio = 1.0f;
 	// ニアクリップ距離を設定
-	viewProjention_.nearZ = 52.0f;
+	viewProjection_.nearZ = 52.0f;
 	// ファークリップ距離を設定
-//	viewProjention_.farZ = 53.0f;
+//	viewProjection_.farZ = 53.0f;
 
 	// ビュープロジェクションの初期化
-	viewProjention_.Initialize();
+	viewProjection_.Initialize();
 	// デバックカメラ
 	debugCamera_ = new DebugCamera(WinApp::kWindowWidth, WinApp::kWindowHeight);
 	// 軸方向表示の表示を有効にする
 	AxisIndicator::GetInstance()->SetVisible(true);
 	// 軸方向表示が参照するビュープロジェクションを指定する(アドレス渡し)
-	AxisIndicator::GetInstance()->SetTargetViewProjection(&viewProjention_);
+	AxisIndicator::GetInstance()->SetTargetViewProjection(&viewProjection_);
 	// ライン描画が参照するビュープロジェクションを指定する(アドレス渡し)
 	PrimitiveDrawer::GetInstance()->SetViewProjection(&debugCamera_->GetViewProjection());
 
@@ -94,12 +94,12 @@ void GameScene::Update()
 		//		if (input_->PushKey(DIK_W)) { move.z += kEyeSpeed; }
 		//		else if (input_->PushKey(DIK_S)) { move.z -= kEyeSpeed; }
 		//		// 視点移動(ベクトルの加算)
-		//		viewProjention_.eye += move;
+		//		viewProjection_.eye += move;
 		//		// 行列の再計算
-		//		viewProjention_.UpdateMatrix();
+		//		viewProjection_.UpdateMatrix();
 		//		// デバック用表示
 		//		debugText_->SetPos(50, 50);
-		//		debugText_->Printf("eye:(%f, %f, %f)", viewProjention_.eye.x, viewProjention_.eye.y, viewProjention_.eye.z);
+		//		debugText_->Printf("eye:(%f, %f, %f)", viewProjection_.eye.x, viewProjection_.eye.y, viewProjection_.eye.z);
 	}
 	// 中視点移動処理
 	{
@@ -111,12 +111,12 @@ void GameScene::Update()
 		//		if (input_->PushKey(DIK_LEFT)) { move.x -= kTargetSpeed; }
 		//		else if (input_->PushKey(DIK_RIGHT)) { move.x += kTargetSpeed; }
 		//		//注視点の移動
-		//		viewProjention_.target += move;
+		//		viewProjection_.target += move;
 		//		// 行列の再計算
-		//		viewProjention_.UpdateMatrix();
+		//		viewProjection_.UpdateMatrix();
 		//		// デバック用表示
 		//		debugText_->SetPos(50, 70);
-		//		debugText_->Printf("target:(%f, %f, %f)", viewProjention_.target.x, viewProjention_.target.y, viewProjention_.target.z);
+		//		debugText_->Printf("target:(%f, %f, %f)", viewProjection_.target.x, viewProjection_.target.y, viewProjection_.target.z);
 	}
 	// 上方向回転処理
 	{
@@ -130,12 +130,12 @@ void GameScene::Update()
 		//			viewAngle = fmodf(viewAngle, XM_PI * 2.0f);
 		//		}
 		//		// 上方向ベクトルを計算(半径1の円周上の座標)
-		//		viewProjention_.up = { cosf(viewAngle), sinf(viewAngle), 0.0f };
+		//		viewProjection_.up = { cosf(viewAngle), sinf(viewAngle), 0.0f };
 		//		// 行列の再計算
-		//		viewProjention_.UpdateMatrix();
+		//		viewProjection_.UpdateMatrix();
 		//		// デバック用表示
 		//		debugText_->SetPos(50, 90);
-		//		debugText_->Printf("up:(%f, %f, %f)", viewProjention_.up.x, viewProjention_.up.y, viewProjention_.up.z);
+		//		debugText_->Printf("up:(%f, %f, %f)", viewProjection_.up.x, viewProjection_.up.y, viewProjection_.up.z);
 	}
 
 	// FoV変換処理
@@ -145,30 +145,30 @@ void GameScene::Update()
 //		// 上キーで視野角が広がる
 //		if (input_->PushKey(DIK_UP))
 //		{
-//			if (viewProjention_.fovAngleY < XM_PI) { viewProjention_.fovAngleY += angleChangeSpeed; }
+//			if (viewProjection_.fovAngleY < XM_PI) { viewProjection_.fovAngleY += angleChangeSpeed; }
 //		}
 //		// 下キーで視野角が狭まる
 //		else if (input_->PushKey(DIK_DOWN))
 //		{
-//			if (0.01f < viewProjention_.fovAngleY) { viewProjention_.fovAngleY -= angleChangeSpeed; }
+//			if (0.01f < viewProjection_.fovAngleY) { viewProjection_.fovAngleY -= angleChangeSpeed; }
 //		}
 //		// 行列の再計算
-//		viewProjention_.UpdateMatrix();
+//		viewProjection_.UpdateMatrix();
 //		// デバック用表示
 //		debugText_->SetPos(50, 110);
-//		debugText_->Printf("fovAngleY(Degree):%f", viewProjention_.fovAngleY / (XM_PI / 180));
+//		debugText_->Printf("fovAngleY(Degree):%f", viewProjection_.fovAngleY / (XM_PI / 180));
 	}
 	// クリップ距離変更処理
 	{
 		const float nearChangeSpeed = 0.1f;
 		// 上下キーでニアクリップ距離を増減
-		if (input_->PushKey(DIK_UP)) { viewProjention_.nearZ += nearChangeSpeed; }
-		else if (input_->PushKey(DIK_DOWN)) { viewProjention_.nearZ -= nearChangeSpeed; }
+		if (input_->PushKey(DIK_UP)) { viewProjection_.nearZ += nearChangeSpeed; }
+		else if (input_->PushKey(DIK_DOWN)) { viewProjection_.nearZ -= nearChangeSpeed; }
 		// 行列の再計算
-		viewProjention_.UpdateMatrix();
+		viewProjection_.UpdateMatrix();
 		// デバック用表示
 		debugText_->SetPos(50, 130);
-		debugText_->Printf("nearZ:%f", viewProjention_.nearZ);
+		debugText_->Printf("nearZ:%f", viewProjection_.nearZ);
 	}
 
 }
@@ -201,7 +201,7 @@ void GameScene::Draw()
 	/// </summary>
 	for (WorldTransform& worldTransform : worldTransforms_)
 	{
-		model_->Draw(worldTransform, viewProjention_, textureHandle_);
+		model_->Draw(worldTransform, viewProjection_, textureHandle_);
 	}
 	//	model_->Draw(worldTransform_, debugCamera_->GetViewProjection(), textureHandle_);
 	//	for (int i = 0; i <= 10; i++) {
