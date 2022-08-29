@@ -8,6 +8,7 @@
 #include "Model.h"
 #include "SafeDelete.h"
 #include "Sprite.h"
+#include "Player.h"
 #include "ViewProjection.h"
 #include "WorldTransform.h"
 
@@ -52,8 +53,6 @@ class GameScene {
 	uint32_t textureHandle_ = 0;
 	// 3Dモデル
 	Model* model_ = nullptr;
-	// ワールドトランスフォーム
-	WorldTransform worldTransforms_[100];
 	// ビュープロダクション
 	ViewProjection viewProjection_;
 	// デバックカメラ
@@ -62,6 +61,9 @@ class GameScene {
 	const float XM_PI = 3.1415;
 
 	float viewAngle = 0.0f;
+
+	// 自キャラ用
+	Player* player_ = nullptr;
 
 	/// <summary>
 	/// ゲームシーン用
