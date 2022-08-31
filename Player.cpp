@@ -60,6 +60,7 @@ void Player::Attack()
 		// ’e‚Ì‘¬“x 
 		const float kBulletSpeed = 1.0f;
 		Vector3 velocity(0, 0, kBulletSpeed);
+		velocity = RotationOperator(velocity, worldTransform_);
 		// ’e‚ğ¶¬‚µA‰Šú‰»
 		std::unique_ptr<PlayerBullet> newBullet = std::make_unique<PlayerBullet>();
 		newBullet->Initialize(model_, position, velocity);
@@ -75,6 +76,9 @@ void Player::Update()
 	Attack();
 	// ’eXV
 	for (std::unique_ptr<PlayerBullet>& bullet : bullets_) { bullet->Update(); }
+
+	// ‚Å‚·ƒtƒ‰ƒO‚Ì—§‚Á‚½’e‚ğíœ
+	bullets_.remove_if([](std::unique_ptr<PlayerBullet>& bullet) {return bullet->IsDead(); });
 }
 
 void Player::Draw(ViewProjection viewProjection)
@@ -82,4 +86,24 @@ void Player::Draw(ViewProjection viewProjection)
 	model_->Draw(worldTransform_, viewProjection, textureHandle_);
 	// ’e•`‰æ
 	for (std::unique_ptr<PlayerBullet>& bullet : bullets_) { bullet->Draw(viewProjection); }
+}
+
+Vector3 Player::RotationOperator(Vector3& velocity, WorldTransform& worldTransform)
+{
+	Vector3 result = { 0,0,0 };
+
+	//“àÏ
+	result.z = velocity.x * worldTransform.matWorld_.m[0][2] +
+		velocity.y * worldTransform.matWorld_.m[1][2] +
+		velocity.z * worldTransform.matWorld_.m[2][2];
+
+	result.x = velocity.x * worldTransform.matWorld_.m[0][0] +
+		velocity.y * worldTransform.matWorld_.m[1][0] +
+		velocity.z * worldTransform.matWorld_.m[2][0];
+
+	result.y = velocity.x * worldTransform.matWorld_.m[0][1] +
+		velocity.y * worldTransform.matWorld_.m[1][1] +
+		velocity.z * worldTransform.matWorld_.m[2][1];
+
+	return result;
 }
