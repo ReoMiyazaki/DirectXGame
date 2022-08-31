@@ -4,6 +4,7 @@
 #include "DirectXCommon.h"
 #include "DebugCamera.h"
 #include "DebugText.h"
+#include "Enemy.h"
 #include "Input.h"
 #include "Model.h"
 #include "SafeDelete.h"
@@ -64,6 +65,8 @@ class GameScene {
 
 	// 自キャラ用
 	Player* player_ = nullptr;
+	// 敵キャラ用
+	Enemy* enemy_ = nullptr;
 
 	/// <summary>
 	/// ゲームシーン用
