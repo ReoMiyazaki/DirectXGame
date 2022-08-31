@@ -1,11 +1,12 @@
 #pragma once
 
-#include "Model.h"
-#include "WorldTransform.h"
-#include "Input.h"
 #include "DebugText.h"
+#include "Input.h"
+#include "Model.h"
 #include "MyFunc.h"
+#include "PlayerBullet.h"
 #include "ViewProjection.h"
+#include "WorldTransform.h"
 #include "math.h"
 #include <cassert>
 
@@ -25,9 +26,19 @@ public:
 	void Update();
 
 	/// <summary>
+	/// 移動
+	/// </summary>
+	void Move();
+
+	/// <summary>
+	/// 攻撃
+	/// </summary>
+	void Attack();
+
+	/// <summary>
 	/// 描画
 	/// </summary>
-	void Draw(ViewProjection viewPojection_);
+	void Draw(ViewProjection viewPojection);
 
 private:
 	Input* input_ = nullptr;
@@ -41,6 +52,9 @@ private:
 	Model* model_ = nullptr;
 	// テクスチャハンドル
 	uint32_t textureHandle_ = 0u;
+
+	// 弾
+	PlayerBullet* bullet_ = nullptr;
 
 };
 
