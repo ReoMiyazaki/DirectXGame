@@ -1,7 +1,7 @@
 #include "affine.h"
 #include "MyFunc.h"
 
-void MyFunc::Transform(WorldTransform& worldTransform, int i)
+void MyFunc::Matrix4(WorldTransform& worldTransform, int i)
 {
 	affine::AffineMat affineMat;
 	// スケーリング・回転・平行移動

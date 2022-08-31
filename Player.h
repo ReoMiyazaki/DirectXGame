@@ -21,21 +21,18 @@ public:
 	/// <param name = "model" > モデル </param>
 	/// <param name = "textureHamdle" > テクスチャハンドル </param>
 	void Initialize(Model* model, uint32_t textureHandle);
+
+	// 旋回
+	void Rotate();
+	// 移動
+	void Move();
+	// 攻撃
+	void Attack();
 	
 	/// <summary>
 	/// 更新
 	/// </summary>
 	void Update();
-
-	/// <summary>
-	/// 移動
-	/// </summary>
-	void Move();
-
-	/// <summary>
-	/// 攻撃
-	/// </summary>
-	void Attack();
 
 	/// <summary>
 	/// 描画
