@@ -39,6 +39,8 @@ public:
 	/// </summary>
 	void Draw(ViewProjection viewPojection);
 
+	Vector3 RotationOperator(Vector3& velocity, WorldTransform& worldTransform);
+
 private:
 	Input* input_ = nullptr;
 	DebugText* debugText_ = nullptr;
