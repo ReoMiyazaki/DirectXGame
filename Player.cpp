@@ -14,35 +14,25 @@ void Player::Initialize(Model* model, uint32_t textureHandle)
 	worldTransform_.Initialize();
 }
 
-void Player::Update()
+void Player::Rotate()
 {
-	Move();
-	Attack();
-	// 弾更新
-	if (bullet_) { bullet_->Update(); }
-}
+	const float kRotateSpd = 0.02f;
 
-void Player::Draw(ViewProjection viewProjection)
-{
-	model_->Draw(worldTransform_, viewProjection, textureHandle_);
-	// 弾描画
-	if (bullet_) { bullet_->Draw(viewProjection); }
+	if (input_->PushKey(DIK_D)) { worldTransform_.rotation_.y -= kRotateSpd; }
+	else if (input_->PushKey(DIK_A)) { worldTransform_.rotation_.y += kRotateSpd; }
 }
 
 void Player::Move()
 {
-	// キャラクターの移動ベクトル
-	Vector3 move = { 0,0,0 };
 	// キャラクター移動の速さ
 	const float kCharacterSpeed = 0.2f;
-	// 押した方向で移動ベクトルを変更
-	if (input_->PushKey(DIK_LEFT)) { move.x = -kCharacterSpeed; }
-	else if (input_->PushKey(DIK_RIGHT)) { move.x = kCharacterSpeed; }
 
-	if (input_->PushKey(DIK_UP)) { move.y = kCharacterSpeed; }
-	else if (input_->PushKey(DIK_DOWN)) { move.y = -kCharacterSpeed; }
+	if (input_->PushKey(DIK_LEFT)) { worldTransform_.translation_.x -= kCharacterSpeed; }
+	else if (input_->PushKey(DIK_RIGHT)) { worldTransform_.translation_.x += kCharacterSpeed; }
 
-	worldTransform_.translation_ += move;
+	if (input_->PushKey(DIK_UP)) { worldTransform_.translation_.y += kCharacterSpeed; }
+	else if (input_->PushKey(DIK_DOWN)) { worldTransform_.translation_.y -= kCharacterSpeed; }
+
 	// 制限限界座標
 	const float kMoveLimitX = 35.0f;
 	const float kMoveLimitY = 19.0f;
@@ -51,7 +41,6 @@ void Player::Move()
 	worldTransform_.translation_.x = min(worldTransform_.translation_.x, +kMoveLimitX);
 	worldTransform_.translation_.y = max(worldTransform_.translation_.y, -kMoveLimitY);
 	worldTransform_.translation_.y = min(worldTransform_.translation_.y, +kMoveLimitY);
-	MyFunc::Transform(worldTransform_, 0);
 	// デバッグ用表示
 	debugText_->SetPos(50, 150);
 	debugText_->Printf(
@@ -68,4 +57,21 @@ void Player::Attack()
 		// 弾を登録する
 		bullet_ = newBullet;
 	}
+}
+
+void Player::Update()
+{
+	Move();
+	Rotate();
+	Attack();
+	// 弾更新
+	if (bullet_) { bullet_->Update(); }
+	MyFunc::Transform(worldTransform_, 0);
+}
+
+void Player::Draw(ViewProjection viewProjection)
+{
+	model_->Draw(worldTransform_, viewProjection, textureHandle_);
+	// 弾描画
+	if (bullet_) { bullet_->Draw(viewProjection); }
 }
