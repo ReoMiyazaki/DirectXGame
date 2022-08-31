@@ -6,6 +6,5 @@
 #pragma once
 namespace MyFunc
 {
-	void Transform(WorldTransform& worldTransform, int i);
+	void Matrix4(WorldTransform& worldTransform, int i);
 };
-

@@ -14,19 +14,12 @@ void Player::Initialize(Model* model, uint32_t textureHandle)
 	worldTransform_.Initialize();
 }
 
-void Player::Update()
+void Player::Rotate()
 {
-	Move();
-	Attack();
-	// 弾更新
-	for (std::unique_ptr<PlayerBullet>& bullet : bullets_) { bullet->Update(); }
-}
+	const float kRotateSpd = 0.02f;
 
-void Player::Draw(ViewProjection viewProjection)
-{
-	model_->Draw(worldTransform_, viewProjection, textureHandle_);
-	// 弾描画
-	for (std::unique_ptr<PlayerBullet>& bullet : bullets_) { bullet->Draw(viewProjection); }
+	if (input_->PushKey(DIK_D)) { worldTransform_.rotation_.y -= kRotateSpd; }
+	else if (input_->PushKey(DIK_A)) { worldTransform_.rotation_.y += kRotateSpd; }
 }
 
 void Player::Move()
@@ -51,7 +44,7 @@ void Player::Move()
 	worldTransform_.translation_.x = min(worldTransform_.translation_.x, +kMoveLimitX);
 	worldTransform_.translation_.y = max(worldTransform_.translation_.y, -kMoveLimitY);
 	worldTransform_.translation_.y = min(worldTransform_.translation_.y, +kMoveLimitY);
-	MyFunc::Transform(worldTransform_, 0);
+	MyFunc::Matrix4(worldTransform_, 0);
 	// デバッグ用表示
 	debugText_->SetPos(50, 150);
 	debugText_->Printf(
@@ -64,10 +57,29 @@ void Player::Attack()
 	{
 		// 自キャラの座標をコピー
 		Vector3 position = worldTransform_.translation_;
+		// 弾の速度 
+		const float kBulletSpeed = 1.0f;
+		Vector3 velocity(0, 0, kBulletSpeed);
 		// 弾を生成し、初期化
 		std::unique_ptr<PlayerBullet> newBullet = std::make_unique<PlayerBullet>();
-		newBullet->Initialize(model_, position);
+		newBullet->Initialize(model_, position, velocity);
 		// 弾を登録する
 		bullets_.push_back(std::move(newBullet));
 	}
+}
+
+void Player::Update()
+{
+	Rotate();
+	Move();
+	Attack();
+	// 弾更新
+	for (std::unique_ptr<PlayerBullet>& bullet : bullets_) { bullet->Update(); }
+}
+
+void Player::Draw(ViewProjection viewProjection)
+{
+	model_->Draw(worldTransform_, viewProjection, textureHandle_);
+	// 弾描画
+	for (std::unique_ptr<PlayerBullet>& bullet : bullets_) { bullet->Draw(viewProjection); }
 }
