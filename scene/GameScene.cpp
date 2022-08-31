@@ -34,7 +34,6 @@ void GameScene::Initialize()
 //	viewProjection_.target = { 10, 0, 0 };
 	// カメラ上方向ベクトル設定
 //	viewProjection_.up = { cosf(XM_PI / 4), sinf(XM_PI / 4), 0.0f };
-
 	// カメラ垂直方向視野角を設定
 //	viewProjection_.fovAngleY = 10.0f * (XM_PI / 180);
 	// アスペクト比を設定
