@@ -9,6 +9,8 @@
 #include "WorldTransform.h"
 #include "math.h"
 #include <cassert>
+#include <memory>
+#include <list>
 
 class Player
 {
@@ -54,7 +56,7 @@ private:
 	uint32_t textureHandle_ = 0u;
 
 	// ’e
-	PlayerBullet* bullet_ = nullptr;
+	std::list<std::unique_ptr<PlayerBullet>> bullets_;
 
 };
 
