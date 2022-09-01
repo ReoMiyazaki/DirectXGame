@@ -1,5 +1,6 @@
 #pragma once
 
+#include "EnemyBullet.h"
 #include "Model.h"
 #include "MyFunc/MyFunc.h"
 #include "WorldTransform.h"
@@ -22,6 +23,8 @@ public:
 	void Approach();
 	// 離脱
 	void Leave();
+	// 弾発射
+	void Fire();
 	// 更新
 	void UpDate();
 	// 描画
@@ -37,5 +40,11 @@ private:
 
 	//敵の行動パターン
 	Phase phase_ = Phase::None;
+
+	// 弾
+	std::list<std::unique_ptr<EnemyBullet>> bullets_;
+
+	//打ち出すまでの時間
+	float coolTimer = 0.0f;
 
 };
