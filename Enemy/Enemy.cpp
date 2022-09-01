@@ -73,29 +73,23 @@ void Enemy::Fire()
 
 	// 弾を生成し、初期化
 	std::unique_ptr<EnemyBullet> newBullet = std::make_unique<EnemyBullet>();
-	// 弾を登録する
-	bullets_.push_back(std::move(newBullet));
 
 	//クールタイムが０になったとき
-	if (coolTimer <= 0) {
-
+	if (coolTimer <= 0)
+	{
 		// 敵キャラの座標をコピー
 		Vector3 position = worldTransform_.translation_;
 		Vector3 velocity(0, 0, kBulletSpeed);
 		newBullet->Initialize(model_, position, velocity);
+		// 弾を登録する
+		bullets_.push_back(std::move(newBullet));
 		coolTimer = 20.0f;
 	}
 }
 
 void Enemy::OnCollision() {}
 
-Vector3 Enemy::GetWorldPosition()
-{
-	Vector3 worldPos;
-	// ワールド行列の平行移動成分を取得
-	worldPos = worldTransform_.translation_;
-	return worldPos;
-}
+
 
 void Enemy::UpDate()
 {
