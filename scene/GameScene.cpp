@@ -1,9 +1,9 @@
 ﻿#include "AxisIndicator.h"
 #include "GameScene.h"
-#include "MyFunc.h"
+#include "MyFunc/MyFunc.h"
 #include "PrimitiveDrawer.h"
 #include "TextureManager.h"
-#include "affine.h"
+#include "MyFunc/affine.h"
 #include <cassert>
 #include <random>
 

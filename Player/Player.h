@@ -3,7 +3,7 @@
 #include "DebugText.h"
 #include "Input.h"
 #include "Model.h"
-#include "MyFunc.h"
+#include "MyFunc/MyFunc.h"
 #include "PlayerBullet.h"
 #include "ViewProjection.h"
 #include "WorldTransform.h"

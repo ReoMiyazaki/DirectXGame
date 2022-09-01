@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Model.h"
-#include "MyFunc.h"
+#include "MyFunc/MyFunc.h"
 #include "WorldTransform.h"
 #include <cassert>
 

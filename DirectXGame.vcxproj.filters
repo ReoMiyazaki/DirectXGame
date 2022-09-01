@@ -49,6 +49,24 @@
     <Filter Include="ヘッダー ファイル\math">
       <UniqueIdentifier>{647f4977-924a-4954-923f-5619e5afc9a3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\Player">
+      <UniqueIdentifier>{70ecdab3-4601-4ba1-bf64-574f8fc46234}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Player">
+      <UniqueIdentifier>{c548376b-1aca-4827-bdd1-3740efac6068}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\Enemy">
+      <UniqueIdentifier>{eeeb0207-5b63-42eb-adff-0804bb723eea}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Enemy">
+      <UniqueIdentifier>{e6bccf6b-8908-47c0-b285-a381c1dace2c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\MyFunc">
+      <UniqueIdentifier>{dcb966e6-3817-4929-b65a-078eb84c05dc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\MyFunc">
+      <UniqueIdentifier>{dc9f4c9c-1a14-470b-a082-cc8ba6e81d0d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -66,20 +84,20 @@
     <ClCompile Include="scene\GameScene.cpp">
       <Filter>ソース ファイル\scene</Filter>
     </ClCompile>
-    <ClCompile Include="affine.cpp">
-      <Filter>ソース ファイル</Filter>
+    <ClCompile Include="Player\Player.cpp">
+      <Filter>ソース ファイル\Player</Filter>
     </ClCompile>
-    <ClCompile Include="MyFunc.cpp">
-      <Filter>ソース ファイル</Filter>
+    <ClCompile Include="Player\PlayerBullet.cpp">
+      <Filter>ソース ファイル\Player</Filter>
     </ClCompile>
-    <ClCompile Include="Player.cpp">
-      <Filter>ソース ファイル</Filter>
+    <ClCompile Include="MyFunc\affine.cpp">
+      <Filter>ソース ファイル\MyFunc</Filter>
     </ClCompile>
-    <ClCompile Include="PlayerBullet.cpp">
-      <Filter>ソース ファイル</Filter>
+    <ClCompile Include="MyFunc\MyFunc.cpp">
+      <Filter>ソース ファイル\MyFunc</Filter>
     </ClCompile>
-    <ClCompile Include="Enemy.cpp">
-      <Filter>ソース ファイル</Filter>
+    <ClCompile Include="Enemy\Enemy.cpp">
+      <Filter>ソース ファイル\Enemy</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -164,20 +182,20 @@
     <ClInclude Include="3d\PrimitiveDrawer.h">
       <Filter>ヘッダー ファイル\3d</Filter>
     </ClInclude>
-    <ClInclude Include="affine.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="Player\Player.h">
+      <Filter>ヘッダー ファイル\Player</Filter>
     </ClInclude>
-    <ClInclude Include="MyFunc.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="Player\PlayerBullet.h">
+      <Filter>ヘッダー ファイル\Player</Filter>
     </ClInclude>
-    <ClInclude Include="Player.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="MyFunc\MyFunc.h">
+      <Filter>ヘッダー ファイル\MyFunc</Filter>
     </ClInclude>
-    <ClInclude Include="PlayerBullet.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="MyFunc\affine.h">
+      <Filter>ヘッダー ファイル\MyFunc</Filter>
     </ClInclude>
-    <ClInclude Include="Enemy.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="Enemy\Enemy.h">
+      <Filter>ヘッダー ファイル\Enemy</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
