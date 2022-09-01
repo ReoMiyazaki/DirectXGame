@@ -30,6 +30,17 @@ public:
 	// 描画
 	void Draw(ViewProjection viewProjection);
 
+	void OnCollision();
+
+	//弾リスト
+	const std::list<std::unique_ptr<EnemyBullet>>& GetBullets() { return bullets_; }
+
+	// ワールド座標を取得
+	Vector3 GetWorldPosition();
+
+	void DeleteBullet();
+
+
 private:
 	// ワールド変換データ
 	WorldTransform worldTransform_;

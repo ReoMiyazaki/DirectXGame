@@ -61,6 +61,16 @@ void Enemy::Fire()
 	}
 }
 
+void Enemy::OnCollision() {}
+
+Vector3 Enemy::GetWorldPosition()
+{
+	Vector3 worldPos;
+	// ワールド行列の平行移動成分を取得
+	worldPos = worldTransform_.translation_;
+	return worldPos;
+}
+
 void Enemy::UpDate()
 {
 	MyFunc::Matrix4(worldTransform_, 0);
@@ -76,10 +86,17 @@ void Enemy::UpDate()
 		break;
 	}
 	Fire();
+	DeleteBullet();
 	// 弾更新
 	for (std::unique_ptr<EnemyBullet>& bullet : bullets_) { bullet->Update(); }
 
 	// ですフラグの立った弾を削除
+//	bullets_.remove_if([](std::unique_ptr<EnemyBullet>& bullet) {return bullet->IsDead(); });
+}
+
+void Enemy::DeleteBullet()
+{
+	// デスフラグの立った弾を削除
 	bullets_.remove_if([](std::unique_ptr<EnemyBullet>& bullet) {return bullet->IsDead(); });
 }
 

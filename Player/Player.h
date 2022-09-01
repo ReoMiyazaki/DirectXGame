@@ -41,6 +41,17 @@ public:
 
 	Vector3 RotationOperator(Vector3& velocity, WorldTransform& worldTransform);
 
+	void OnCollision();
+
+	//弾リスト
+	const std::list<std::unique_ptr<PlayerBullet>>& GetBullets() { return bullets_; }
+	// ワールド座標を取得
+	Vector3 GetWorldPosition();
+
+	void DeleteBullet();
+
+
+
 private:
 	Input* input_ = nullptr;
 	DebugText* debugText_ = nullptr;
