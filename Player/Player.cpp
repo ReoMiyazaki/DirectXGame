@@ -71,13 +71,7 @@ void Player::Attack()
 
 void Player::OnCollision() {}
 
-Vector3 Player::GetWorldPosition()
-{
-	Vector3 worldPos;
-	// ワールド行列の平行移動成分を取得
-	worldPos = worldTransform_.translation_;
-	return worldPos;
-}
+
 
 void Player::Update()
 {

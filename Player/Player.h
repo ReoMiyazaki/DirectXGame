@@ -47,8 +47,6 @@ public:
 
 	//弾リスト
 	const std::list<std::unique_ptr<PlayerBullet>>& GetBullets() { return bullets_; }
-	// ワールド座標を取得
-	Vector3 GetWorldPosition();
 
 	void DeleteBullet();
 
