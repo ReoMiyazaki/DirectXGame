@@ -69,17 +69,36 @@ void Player::Attack()
 	}
 }
 
+void Player::OnCollision() {}
+
+Vector3 Player::GetWorldPosition()
+{
+	Vector3 worldPos;
+	// ワールド行列の平行移動成分を取得
+	worldPos = worldTransform_.translation_;
+	return worldPos;
+}
+
 void Player::Update()
 {
 	Rotate();
 	Move();
 	Attack();
+	DeleteBullet();
+
 	// 弾更新
 	for (std::unique_ptr<PlayerBullet>& bullet : bullets_) { bullet->Update(); }
 
 	// ですフラグの立った弾を削除
+//	bullets_.remove_if([](std::unique_ptr<PlayerBullet>& bullet) {return bullet->IsDead(); });
+}
+
+void Player::DeleteBullet()
+{
+	// デスフラグの立った弾を削除
 	bullets_.remove_if([](std::unique_ptr<PlayerBullet>& bullet) {return bullet->IsDead(); });
 }
+
 
 void Player::Draw(ViewProjection viewProjection)
 {

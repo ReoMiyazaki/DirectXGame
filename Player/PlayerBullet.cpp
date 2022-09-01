@@ -26,3 +26,16 @@ void PlayerBullet::Draw(const ViewProjection& viewProjection)
 {
 	model_->Draw(worldTransform_, viewProjection, textureHandle_);
 }
+
+void PlayerBullet::OnCollision()
+{
+	isDead_ = true;
+}
+
+Vector3 PlayerBullet::GetWorldPosition()
+{
+	Vector3 worldPos;
+	// ワールド行列の平行移動成分を取得
+	worldPos = worldTransform_.translation_;
+	return worldPos;
+}
