@@ -7,55 +7,61 @@
 #include <cassert>
 #include <random>
 
+// è‡ªæ©Ÿã‚¯ãƒ©ã‚¹ã®å‰æ–¹å®£è¨€
+class Player;
+
 class Enemy
 {
 	enum class Phase
 	{
 		None,
-		Approach,	//Ú‹ß‚·‚é
-		Leave,		//—£’E‚·‚é
+		Approach,	//æ¥è¿‘ã™ã‚‹
+		Leave,		//é›¢è„±ã™ã‚‹
 	};
 
 public:
-	// ‰Šú‰»
+	// åˆæœŸåŒ–
 	void Initialize(Model* model, uint32_t textureHandle);
-	// Ú‹ß
+	// æ¥è¿‘
 	void Approach();
-	// —£’E
+	// é›¢è„±
 	void Leave();
-	// ’e”­Ë
+	// å¼¾ç™ºå°„
 	void Fire();
-	// XV
+	// æ›´æ–°
 	void UpDate();
-	// •`‰æ
+	// æç”»
 	void Draw(ViewProjection viewProjection);
 
+	void SetPlayer(Player* player) { player_ = player; }
+
+	// ãƒ¯ãƒ¼ãƒ«ãƒ‰åº§æ¨™ã‚’å–å¾—
+	Vector3 GetWorldPosition();
+  
 	void OnCollision();
 
-	//’eƒŠƒXƒg
+	//å¼¾ãƒªã‚¹ãƒˆ
 	const std::list<std::unique_ptr<EnemyBullet>>& GetBullets() { return bullets_; }
-
-	// ƒ[ƒ‹ƒhÀ•W‚ğæ“¾
-	Vector3 GetWorldPosition();
 
 	void DeleteBullet();
 
-
 private:
-	// ƒ[ƒ‹ƒh•ÏŠ·ƒf[ƒ^
+	// ãƒ¯ãƒ¼ãƒ«ãƒ‰å¤‰æ›ãƒ‡ãƒ¼ã‚¿
 	WorldTransform worldTransform_;
-	// ƒ‚ƒfƒ‹
+	// ãƒ¢ãƒ‡ãƒ«
 	Model* model_ = nullptr;
-	// ƒeƒNƒXƒ`ƒƒƒnƒ“ƒhƒ‹
+	// ãƒ†ã‚¯ã‚¹ãƒãƒ£ãƒãƒ³ãƒ‰ãƒ«
 	uint32_t textureHandle_ = 0u;
 
-	//“G‚Ìs“®ƒpƒ^[ƒ“
+	//æ•µã®è¡Œå‹•ãƒ‘ã‚¿ãƒ¼ãƒ³
 	Phase phase_ = Phase::None;
 
-	// ’e
+	// å¼¾
 	std::list<std::unique_ptr<EnemyBullet>> bullets_;
 
-	//‘Å‚¿o‚·‚Ü‚Å‚ÌŠÔ
+	//æ‰“ã¡å‡ºã™ã¾ã§ã®æ™‚é–“
 	float coolTimer = 0.0f;
 
+	// è‡ªã‚­ãƒ£ãƒ©
+	Player* player_ = nullptr;
 };

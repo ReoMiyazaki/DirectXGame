@@ -56,12 +56,12 @@ void GameScene::Initialize()
 	PrimitiveDrawer::GetInstance()->SetViewProjection(&debugCamera_->GetViewProjection());
 
 	// 乱数シード生成器
-	std::random_device seed_gen;
+//	std::random_device seed_gen;
 	// メルセンヌ・ツイスターの乱数エンジン
-	std::mt19937_64 engin(seed_gen());
+//	std::mt19937_64 engin(seed_gen());
 	// 乱数範囲の指定
-	std::uniform_real_distribution<float> rot(0, XM_PI);
-	std::uniform_real_distribution<float> trans(-10, 10);
+//	std::uniform_real_distribution<float> rot(0, XM_PI);
+//	std::uniform_real_distribution<float> trans(-10, 10);
 
 	// 自キャラの生成
 	player_ = new Player();
@@ -71,6 +71,8 @@ void GameScene::Initialize()
 	enemy_ = new Enemy();
 	// 敵キャラの初期化
 	enemy_->Initialize(model_, textureHandle_);
+	// 敵キャラに自キャラのアドレスを渡す
+	enemy_->SetPlayer(player_);
 
 }
 

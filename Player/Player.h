@@ -40,6 +40,8 @@ public:
 	void Draw(ViewProjection viewPojection);
 
 	Vector3 RotationOperator(Vector3& velocity, WorldTransform& worldTransform);
+	// ƒ[ƒ‹ƒhÀ•W‚ğæ“¾
+	Vector3 GetWorldPosition();
 
 	void OnCollision();
 
