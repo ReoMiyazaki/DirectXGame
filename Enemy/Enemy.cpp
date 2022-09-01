@@ -1,4 +1,5 @@
 #include "Enemy.h"
+#include "Player/Player.h"
 
 void Enemy::Initialize(Model* model, uint32_t textureHandle)
 {
@@ -44,19 +45,44 @@ void Enemy::Leave()
 void Enemy::Fire()
 {
 	coolTimer -= 0.1f;
+
+	assert(player_);
+	// 弾の速度
+	const float kBulletSpeed = 1.0f;
+
+	//プレイヤーのワールド座標の取得
+	Vector3 playerPosition;
+	playerPosition = player_->GetWorldPosition();
+	//敵のワールド座標の取得
+	Vector3 enemyPosition;
+	enemyPosition = GetWorldPosition();
+
+	Vector3 distance(0, 0, 0);
+
+	//差分ベクトルを求める
+	distance.x = playerPosition.x - enemyPosition.x;
+	distance.y = playerPosition.y - enemyPosition.y;
+	distance.z = playerPosition.z - enemyPosition.z;
+
+	//長さを求める
+	Vector3 Length(distance);
+	//正規化
+	Vector3 Normalize(distance);
+	//ベクトルの長さを,速さに合わせる
+	distance *= kBulletSpeed;	//これが速度になる
+
+	// 弾を生成し、初期化
+	std::unique_ptr<EnemyBullet> newBullet = std::make_unique<EnemyBullet>();
+	// 弾を登録する
+	bullets_.push_back(std::move(newBullet));
+
 	//クールタイムが０になったとき
 	if (coolTimer <= 0) {
 
 		// 敵キャラの座標をコピー
 		Vector3 position = worldTransform_.translation_;
-		// 弾の速度 
-		const float kBulletSpeed = 1.0f;
 		Vector3 velocity(0, 0, kBulletSpeed);
-		// 弾を生成し、初期化
-		std::unique_ptr<EnemyBullet> newBullet = std::make_unique<EnemyBullet>();
 		newBullet->Initialize(model_, position, velocity);
-		// 弾を登録する
-		bullets_.push_back(std::move(newBullet));
 		coolTimer = 20.0f;
 	}
 }
@@ -88,4 +114,17 @@ void Enemy::Draw(ViewProjection viewProjection)
 	model_->Draw(worldTransform_, viewProjection, textureHandle_);
 	// 弾描画
 	for (std::unique_ptr<EnemyBullet>& bullet : bullets_) { bullet->Draw(viewProjection); }
+}
+
+Vector3 Enemy::GetWorldPosition()
+{
+	//ワールド座標を入れるための変数
+	Vector3 worldPos;
+
+	//ワールド行列の平行移動成分を取得
+	worldPos.x = worldTransform_.matWorld_.m[3][0];
+	worldPos.y = worldTransform_.matWorld_.m[3][1];
+	worldPos.z = worldTransform_.matWorld_.m[3][2];
+
+	return worldPos;
 }

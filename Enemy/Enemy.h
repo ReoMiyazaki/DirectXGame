@@ -7,6 +7,9 @@
 #include <cassert>
 #include <random>
 
+// 自機クラスの前方宣言
+class Player;
+
 class Enemy
 {
 	enum class Phase
@@ -30,6 +33,10 @@ public:
 	// 描画
 	void Draw(ViewProjection viewProjection);
 
+	void SetPlayer(Player* player) { player_ = player; }
+
+	Vector3 GetWorldPosition();
+
 private:
 	// ワールド変換データ
 	WorldTransform worldTransform_;
@@ -47,4 +54,6 @@ private:
 	//打ち出すまでの時間
 	float coolTimer = 0.0f;
 
+	// 自キャラ
+	Player* player_ = nullptr;
 };
