@@ -49,6 +49,24 @@
     <Filter Include="ヘッダー ファイル\math">
       <UniqueIdentifier>{647f4977-924a-4954-923f-5619e5afc9a3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\player">
+      <UniqueIdentifier>{d188c5db-f5b7-46f3-a958-d45f5a1e9a08}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\enemy">
+      <UniqueIdentifier>{f3c939e1-be28-4fde-8b74-1dc3e2c1fba2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ソース ファイル\func">
+      <UniqueIdentifier>{d4186bf9-4bac-4e79-8850-825f0182b8ff}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\player">
+      <UniqueIdentifier>{89f33638-a69b-40d4-a712-6c8e3cc7cd4f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\func">
+      <UniqueIdentifier>{a34fb8fd-f1e7-4f81-ab4d-e62e8694329e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\enemy">
+      <UniqueIdentifier>{e11bc61d-0bd1-419d-840c-af9b787f0b37}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -66,20 +84,20 @@
     <ClCompile Include="scene\GameScene.cpp">
       <Filter>ソース ファイル\scene</Filter>
     </ClCompile>
-    <ClCompile Include="affine.cpp">
-      <Filter>ソース ファイル</Filter>
+    <ClCompile Include="player\PlayerBullet.cpp">
+      <Filter>ソース ファイル\player</Filter>
     </ClCompile>
-    <ClCompile Include="MyFunc.cpp">
-      <Filter>ソース ファイル</Filter>
+    <ClCompile Include="player\Player.cpp">
+      <Filter>ソース ファイル\player</Filter>
     </ClCompile>
-    <ClCompile Include="Player.cpp">
-      <Filter>ソース ファイル</Filter>
+    <ClCompile Include="func\affine.cpp">
+      <Filter>ソース ファイル\func</Filter>
     </ClCompile>
-    <ClCompile Include="PlayerBullet.cpp">
-      <Filter>ソース ファイル</Filter>
+    <ClCompile Include="func\MyFunc.cpp">
+      <Filter>ソース ファイル\func</Filter>
     </ClCompile>
-    <ClCompile Include="Enemy.cpp">
-      <Filter>ソース ファイル</Filter>
+    <ClCompile Include="enemy\Enemy.cpp">
+      <Filter>ソース ファイル\enemy</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -164,20 +182,20 @@
     <ClInclude Include="3d\PrimitiveDrawer.h">
       <Filter>ヘッダー ファイル\3d</Filter>
     </ClInclude>
-    <ClInclude Include="affine.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="player\Player.h">
+      <Filter>ヘッダー ファイル\player</Filter>
     </ClInclude>
-    <ClInclude Include="MyFunc.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="player\PlayerBullet.h">
+      <Filter>ヘッダー ファイル\player</Filter>
     </ClInclude>
-    <ClInclude Include="Player.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="func\MyFunc.h">
+      <Filter>ヘッダー ファイル\func</Filter>
     </ClInclude>
-    <ClInclude Include="PlayerBullet.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="func\affine.h">
+      <Filter>ヘッダー ファイル\func</Filter>
     </ClInclude>
-    <ClInclude Include="Enemy.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="enemy\Enemy.h">
+      <Filter>ヘッダー ファイル\enemy</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
