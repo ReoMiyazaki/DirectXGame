@@ -1,6 +1,8 @@
 #include "Enemy.h"
 #include "Player/Player.h"
 
+using namespace MathUtility;
+
 void Enemy::Initialize(Model* model, uint32_t textureHandle)
 {
 
@@ -44,46 +46,40 @@ void Enemy::Leave()
 
 void Enemy::Fire()
 {
-	coolTimer -= 0.1f;
+	dalayTimer -= 0.1f;
 
-	assert(player_);
 	// 弾の速度
 	const float kBulletSpeed = 1.0f;
 
-	//プレイヤーのワールド座標の取得
-	Vector3 playerPosition;
-	playerPosition = player_->GetWorldPosition();
-	//敵のワールド座標の取得
-	Vector3 enemyPosition;
-	enemyPosition = GetWorldPosition();
+
+	assert(player_);
 
 	Vector3 distance(0, 0, 0);
 
+
+	//プレイヤーのワールド座標の取得
+	Vector3 playerPosition = player_->GetWorldPosition();
+	//敵のワールド座標の取得
+	Vector3 enemyPosition = GetWorldPosition();
+
 	//差分ベクトルを求める
-	distance.x = playerPosition.x - enemyPosition.x;
-	distance.y = playerPosition.y - enemyPosition.y;
-	distance.z = playerPosition.z - enemyPosition.z;
+	distance = playerPosition - enemyPosition;
 
 	//長さを求める
-	Vector3 Length(distance);
+	Vector3Length(distance);
 	//正規化
-	Vector3 Normalize(distance);
+	Vector3Normalize(distance);
 	//ベクトルの長さを,速さに合わせる
 	distance *= kBulletSpeed;	//これが速度になる
 
-	// 弾を生成し、初期化
-	std::unique_ptr<EnemyBullet> newBullet = std::make_unique<EnemyBullet>();
-	// 弾を登録する
-	bullets_.push_back(std::move(newBullet));
+	if (dalayTimer <= 0) {
 
-	//クールタイムが０になったとき
-	if (coolTimer <= 0) {
-
-		// 敵キャラの座標をコピー
-		Vector3 position = worldTransform_.translation_;
-		Vector3 velocity(0, 0, kBulletSpeed);
-		newBullet->Initialize(model_, position, velocity);
-		coolTimer = 20.0f;
+		// 弾を生成し、初期化
+		std::unique_ptr<EnemyBullet> newBullet = std::make_unique<EnemyBullet>();
+		newBullet->Initialize(model_, worldTransform_.translation_, distance);
+		// 弾を登録する
+		bullets_.push_back(std::move(newBullet));
+		dalayTimer = 25.0f;
 	}
 }
 
