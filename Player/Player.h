@@ -53,6 +53,8 @@ public:
 
 	Matrix4 GetMatrix();
 
+	int hp = 10;
+
 
 private:
 	Input* input_ = nullptr;
@@ -70,6 +72,8 @@ private:
 	// ’e
 	std::list<std::unique_ptr<PlayerBullet>> bullets_;
 
+	//‘Å‚¿o‚·‚Ü‚Å‚ÌŠÔ
+	float coolTimer = 0.0f;
 
 };
 

@@ -48,6 +48,9 @@ public:
 
 	Matrix4 GetMatrix();
 
+	int hp = 100;
+
+
 private:
 	// ワールド変換データ
 	WorldTransform worldTransform_;
@@ -67,10 +70,12 @@ private:
 
 	float dalayTimer = 0.0f;
 
+	float x = 0.05f, y = 0.7f, z = 0.1f;
 
 	// 自キャラ
 
 	Player* player_ = nullptr;
 
 	bool isDead_ = true;
+
 };

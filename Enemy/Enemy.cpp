@@ -20,7 +20,9 @@ void Enemy::Initialize(Model* model, uint32_t textureHandle)
 	this->textureHandle_ = textureHandle;
 	// ワールド変換の初期化
 	worldTransform_.Initialize();
-	worldTransform_.translation_ = { trans(engin), trans(engin), 50 };
+	worldTransform_.scale_ = { 5,5,1 };
+	worldTransform_.translation_ = { 0,0,100 };
+	//worldTransform_.translation_ = { trans(engin), trans(engin), 50 };
 }
 
 void Enemy::UpDate()
@@ -42,8 +44,6 @@ void Enemy::UpDate()
 	// 弾更新
 	for (std::unique_ptr<EnemyBullet>& bullet : bullets_) { bullet->Update(); }
 
-	// ですフラグの立った弾を削除
-//	bullets_.remove_if([](std::unique_ptr<EnemyBullet>& bullet) {return bullet->IsDead(); });
 }
 
 void Enemy::Draw(ViewProjection viewProjection)
@@ -56,22 +56,41 @@ void Enemy::Draw(ViewProjection viewProjection)
 void Enemy::Approach()
 {
 	//接近速度
-	Vector3 approach_ = { 0.0f, 0.0f, -0.1f };
+	Vector3 approach_ = { 0.0f, 0.0f, -0.15f };
 
 	worldTransform_.translation_ += approach_;
 	//既定の位置に到達したら離脱
 	if (worldTransform_.translation_.z <= 0.0f)
 	{
 		phase_ = Phase::Leave;
+		x *= -1;
+		y *= -1;
 	}
 }
 
 void Enemy::Leave()
 {
+	
+
 	//離脱速度
-	Vector3 leave_ = { -0.15f,0.1f,0.1f };
+	Vector3 leave_ = { x,y,z };
+
+
+	// 制限限界座標
+	const float kMoveLimitX = 30.0f;
+	const float kMoveLimitY = 15.0f;
+
+	// 範囲を超えない処理
+	worldTransform_.translation_.x = max(worldTransform_.translation_.x, -kMoveLimitX);
+	worldTransform_.translation_.x = min(worldTransform_.translation_.x, +kMoveLimitX);
+	worldTransform_.translation_.y = max(worldTransform_.translation_.y, -kMoveLimitY);
+	worldTransform_.translation_.y = min(worldTransform_.translation_.y, +kMoveLimitY);
 
 	worldTransform_.translation_ += leave_;
+
+	//既定の位置に到達したら離脱
+	if (100.0f <= worldTransform_.translation_.z) { phase_ = Phase::Approach; }
+
 }
 
 void Enemy::Fire()
@@ -113,7 +132,7 @@ void Enemy::Fire()
 	}
 }
 
-void Enemy::OnCollision() {}
+void Enemy::OnCollision() { hp--; }
 
 void Enemy::DeleteBullet()
 {

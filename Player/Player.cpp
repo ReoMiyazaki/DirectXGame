@@ -16,7 +16,7 @@ void Player::Initialize(Model* model, uint32_t textureHandle)
 
 void Player::Update()
 {
-	Rotate();
+	//	Rotate();
 	Move();
 	DeleteBullet();
 	Attack();
@@ -66,15 +66,12 @@ void Player::Move()
 	worldTransform_.translation_.y = max(worldTransform_.translation_.y, -kMoveLimitY);
 	worldTransform_.translation_.y = min(worldTransform_.translation_.y, +kMoveLimitY);
 	MyFunc::Matrix4(worldTransform_, 0);
-	// デバッグ用表示
-	debugText_->SetPos(50, 150);
-	debugText_->Printf(
-		"Root:(%f,%f,%f)", worldTransform_.translation_.x, worldTransform_.translation_.y, worldTransform_.translation_.z);
 }
 
 void Player::Attack()
 {
-	if (input_->TriggerKey(DIK_SPACE))
+	coolTimer--;
+	if (input_->PushKey(DIK_SPACE) && coolTimer < 0)
 	{
 		// 自キャラの座標をコピー
 		Vector3 position = worldTransform_.translation_;
@@ -87,10 +84,12 @@ void Player::Attack()
 		newBullet->Initialize(model_, position, velocity);
 		// 弾を登録する
 		bullets_.push_back(std::move(newBullet));
+
+		coolTimer = 10.0f;
 	}
 }
 
-void Player::OnCollision() {}
+void Player::OnCollision() { hp--; }
 
 void Player::DeleteBullet()
 {
