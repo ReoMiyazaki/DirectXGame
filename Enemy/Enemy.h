@@ -37,13 +37,16 @@ public:
 
 	// ワールド座標を取得
 	Vector3 GetWorldPosition();
-  
+
+	//衝突を検出したら呼び出されるコールバック関数
 	void OnCollision();
 
-	//弾リスト
-	const std::list<std::unique_ptr<EnemyBullet>>& GetBullets() { return bullets_; }
+	//タマリストを取得
+	const std::list<std::unique_ptr<EnemyBullet>>& GetBulletd() { return bullets_; }
 
 	void DeleteBullet();
+
+	Matrix4 GetMatrix();
 
 private:
 	// ワールド変換データ
@@ -64,12 +67,10 @@ private:
 
 	float dalayTimer = 0.0f;
 
-	// ���L����
 
 	// 自キャラ
 
 	Player* player_ = nullptr;
 
-	//�f�X�t���O
 	bool isDead_ = true;
 };

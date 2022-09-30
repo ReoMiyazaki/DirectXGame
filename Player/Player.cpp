@@ -14,6 +14,27 @@ void Player::Initialize(Model* model, uint32_t textureHandle)
 	worldTransform_.Initialize();
 }
 
+void Player::Update()
+{
+	Rotate();
+	Move();
+	DeleteBullet();
+	Attack();
+
+	// ’eXV
+	for (std::unique_ptr<PlayerBullet>& bullet : bullets_) { bullet->Update(); }
+
+	// ‚Å‚·ƒtƒ‰ƒO‚Ì—§‚Á‚½’e‚ğíœ
+//	bullets_.remove_if([](std::unique_ptr<PlayerBullet>& bullet) {return bullet->IsDead(); });
+}
+
+void Player::Draw(ViewProjection viewProjection)
+{
+	model_->Draw(worldTransform_, viewProjection, textureHandle_);
+	// ’e•`‰æ
+	for (std::unique_ptr<PlayerBullet>& bullet : bullets_) { bullet->Draw(viewProjection); }
+}
+
 void Player::Rotate()
 {
 	const float kRotateSpd = 0.02f;
@@ -71,34 +92,10 @@ void Player::Attack()
 
 void Player::OnCollision() {}
 
-
-
-void Player::Update()
-{
-	Rotate();
-	Move();
-	Attack();
-	DeleteBullet();
-
-	// ’eXV
-	for (std::unique_ptr<PlayerBullet>& bullet : bullets_) { bullet->Update(); }
-
-	// ‚Å‚·ƒtƒ‰ƒO‚Ì—§‚Á‚½’e‚ğíœ
-//	bullets_.remove_if([](std::unique_ptr<PlayerBullet>& bullet) {return bullet->IsDead(); });
-}
-
 void Player::DeleteBullet()
 {
 	// ƒfƒXƒtƒ‰ƒO‚Ì—§‚Á‚½’e‚ğíœ
 	bullets_.remove_if([](std::unique_ptr<PlayerBullet>& bullet) {return bullet->IsDead(); });
-}
-
-
-void Player::Draw(ViewProjection viewProjection)
-{
-	model_->Draw(worldTransform_, viewProjection, textureHandle_);
-	// ’e•`‰æ
-	for (std::unique_ptr<PlayerBullet>& bullet : bullets_) { bullet->Draw(viewProjection); }
 }
 
 Vector3 Player::RotationOperator(Vector3& velocity, WorldTransform& worldTransform)
@@ -132,4 +129,9 @@ Vector3 Player::GetWorldPosition()
 	worldPos.z = worldTransform_.matWorld_.m[3][2];
 
 	return worldPos;
+}
+
+Matrix4 Player::GetMatrix()
+{
+	return worldTransform_.matWorld_;
 }
