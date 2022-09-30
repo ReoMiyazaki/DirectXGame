@@ -69,17 +69,30 @@ void Player::Attack()
 	}
 }
 
+void Player::OnCollision() {}
+
+
+
 void Player::Update()
 {
 	Rotate();
 	Move();
 	Attack();
+	DeleteBullet();
+
 	// 弾更新
 	for (std::unique_ptr<PlayerBullet>& bullet : bullets_) { bullet->Update(); }
 
 	// ですフラグの立った弾を削除
+//	bullets_.remove_if([](std::unique_ptr<PlayerBullet>& bullet) {return bullet->IsDead(); });
+}
+
+void Player::DeleteBullet()
+{
+	// デスフラグの立った弾を削除
 	bullets_.remove_if([](std::unique_ptr<PlayerBullet>& bullet) {return bullet->IsDead(); });
 }
+
 
 void Player::Draw(ViewProjection viewProjection)
 {

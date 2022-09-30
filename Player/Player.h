@@ -43,6 +43,15 @@ public:
 	// ワールド座標を取得
 	Vector3 GetWorldPosition();
 
+	void OnCollision();
+
+	//弾リスト
+	const std::list<std::unique_ptr<PlayerBullet>>& GetBullets() { return bullets_; }
+
+	void DeleteBullet();
+
+
+
 private:
 	Input* input_ = nullptr;
 	DebugText* debugText_ = nullptr;

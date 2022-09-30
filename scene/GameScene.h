@@ -8,6 +8,7 @@
 #include "Input.h"
 #include "Model.h"
 #include "SafeDelete.h"
+#include "Skydome/Skydome.h"
 #include "Sprite.h"
 #include "Player/Player.h"
 #include "ViewProjection.h"
@@ -18,7 +19,7 @@
 /// </summary>
 class GameScene {
 
-  public: // メンバ関数
+public: // メンバ関数
 	/// <summary>
 	/// コンストクラタ
 	/// </summary>
@@ -44,7 +45,12 @@ class GameScene {
 	/// </summary>
 	void Draw();
 
-  private: // メンバ変数
+	/// <summary>
+	/// 衝突判定と応答
+	/// </summary>
+	void CheckAllCollision();
+
+private: // メンバ変数
 	DirectXCommon* dxCommon_ = nullptr;
 	Input* input_ = nullptr;
 	Audio* audio_ = nullptr;
@@ -67,6 +73,10 @@ class GameScene {
 	Player* player_ = nullptr;
 	// 敵キャラ用
 	Enemy* enemy_ = nullptr;
+	// 天球
+	Skydome* skydome_ = nullptr;
+	// 3Dモデル
+	Model* modelSkydome_ = nullptr;
 
 	/// <summary>
 	/// ゲームシーン用

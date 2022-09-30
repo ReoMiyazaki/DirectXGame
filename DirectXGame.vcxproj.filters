@@ -67,6 +67,12 @@
     <Filter Include="ヘッダー ファイル\MyFunc">
       <UniqueIdentifier>{dc9f4c9c-1a14-470b-a082-cc8ba6e81d0d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\Skydome">
+      <UniqueIdentifier>{5bc7f8fc-98ae-44cf-a40c-3bffa8f500c7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ヘッダー ファイル\Skydome">
+      <UniqueIdentifier>{d28ec2c7-c820-40f4-9fc2-6bc012fa7056}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -101,6 +107,9 @@
     </ClCompile>
     <ClCompile Include="Enemy\EnemyBullet.cpp">
       <Filter>ソース ファイル\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Skydome\Skydome.cpp">
+      <Filter>ソース ファイル\Skydome</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -202,6 +211,9 @@
     </ClInclude>
     <ClInclude Include="Enemy\EnemyBullet.h">
       <Filter>ヘッダー ファイル\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Skydome\Skydome.h">
+      <Filter>ヘッダー ファイル\Skydome</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
