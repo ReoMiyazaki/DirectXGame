@@ -62,6 +62,14 @@ private:
 	//打ち出すまでの時間
 	float coolTimer = 0.0f;
 
+	float dalayTimer = 0.0f;
+
+	// ���L����
+
 	// 自キャラ
+
 	Player* player_ = nullptr;
+
+	//�f�X�t���O
+	bool isDead_ = true;
 };

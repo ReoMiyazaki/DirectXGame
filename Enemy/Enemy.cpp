@@ -1,33 +1,35 @@
 #include "Enemy.h"
 #include "Player/Player.h"
 
+using namespace MathUtility;
+
 void Enemy::Initialize(Model* model, uint32_t textureHandle)
 {
 
-	// —”ƒV[ƒh¶¬Ší
+	// ä¹±æ•°ã‚·ãƒ¼ãƒ‰ç”Ÿæˆå™¨
 	std::random_device seed_gen;
-	// ƒƒ‹ƒZƒ“ƒkEƒcƒCƒXƒ^[‚Ì—”ƒGƒ“ƒWƒ“
+	// ãƒ¡ãƒ«ã‚»ãƒ³ãƒŒãƒ»ãƒ„ã‚¤ã‚¹ã‚¿ãƒ¼ã®ä¹±æ•°ã‚¨ãƒ³ã‚¸ãƒ³
 	std::mt19937_64 engin(seed_gen());
-	// —””ÍˆÍ‚Ìw’è
+	// ä¹±æ•°ç¯„å›²ã®æŒ‡å®š
 	std::uniform_real_distribution<float> trans(-10, 10);
 
-	// NULLƒ|ƒCƒ“ƒ^ƒ`ƒFƒbƒN
+	// NULLãƒã‚¤ãƒ³ã‚¿ãƒã‚§ãƒƒã‚¯
 	assert(model);
-	// ˆø”‚Æ‚µ‚Äó‚¯æ‚Á‚½ƒf[ƒ^‚ğƒƒ“ƒo•Ï”‚É‹L˜^‚·‚é
+	// å¼•æ•°ã¨ã—ã¦å—ã‘å–ã£ãŸãƒ‡ãƒ¼ã‚¿ã‚’ãƒ¡ãƒ³ãƒå¤‰æ•°ã«è¨˜éŒ²ã™ã‚‹
 	this->model_ = model;
 	this->textureHandle_ = textureHandle;
-	// ƒ[ƒ‹ƒh•ÏŠ·‚Ì‰Šú‰»
+	// ãƒ¯ãƒ¼ãƒ«ãƒ‰å¤‰æ›ã®åˆæœŸåŒ–
 	worldTransform_.Initialize();
 	worldTransform_.translation_ = { trans(engin), trans(engin), 50 };
 }
 
 void Enemy::Approach()
 {
-	//Ú‹ß‘¬“x
+	//æ¥è¿‘é€Ÿåº¦
 	Vector3 approach_ = { 0.0f, 0.0f, -0.1f };
 
 	worldTransform_.translation_ += approach_;
-	//Šù’è‚ÌˆÊ’u‚É“’B‚µ‚½‚ç—£’E
+	//æ—¢å®šã®ä½ç½®ã«åˆ°é”ã—ãŸã‚‰é›¢è„±
 	if (worldTransform_.translation_.z <= 0.0f)
 	{
 		phase_ = Phase::Leave;
@@ -36,7 +38,7 @@ void Enemy::Approach()
 
 void Enemy::Leave()
 {
-	//—£’E‘¬“x
+	//é›¢è„±é€Ÿåº¦
 	Vector3 leave_ = { -0.15f,0.1f,0.1f };
 
 	worldTransform_.translation_ += leave_;
@@ -44,46 +46,40 @@ void Enemy::Leave()
 
 void Enemy::Fire()
 {
-	coolTimer -= 0.1f;
+	dalayTimer -= 0.1f;
 
-	assert(player_);
-	// ’e‚Ì‘¬“x
+	// å¼¾ã®é€Ÿåº¦
 	const float kBulletSpeed = 1.0f;
 
-	//ƒvƒŒƒCƒ„[‚Ìƒ[ƒ‹ƒhÀ•W‚Ìæ“¾
-	Vector3 playerPosition;
-	playerPosition = player_->GetWorldPosition();
-	//“G‚Ìƒ[ƒ‹ƒhÀ•W‚Ìæ“¾
-	Vector3 enemyPosition;
-	enemyPosition = GetWorldPosition();
+
+	assert(player_);
 
 	Vector3 distance(0, 0, 0);
 
-	//·•ªƒxƒNƒgƒ‹‚ğ‹‚ß‚é
-	distance.x = playerPosition.x - enemyPosition.x;
-	distance.y = playerPosition.y - enemyPosition.y;
-	distance.z = playerPosition.z - enemyPosition.z;
 
-	//’·‚³‚ğ‹‚ß‚é
-	Vector3 Length(distance);
-	//³‹K‰»
-	Vector3 Normalize(distance);
-	//ƒxƒNƒgƒ‹‚Ì’·‚³‚ğ,‘¬‚³‚É‡‚í‚¹‚é
-	distance *= kBulletSpeed;	//‚±‚ê‚ª‘¬“x‚É‚È‚é
+	//ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®ãƒ¯ãƒ¼ãƒ«ãƒ‰åº§æ¨™ã®å–å¾—
+	Vector3 playerPosition = player_->GetWorldPosition();
+	//æ•µã®ãƒ¯ãƒ¼ãƒ«ãƒ‰åº§æ¨™ã®å–å¾—
+	Vector3 enemyPosition = GetWorldPosition();
 
-	// ’e‚ğ¶¬‚µA‰Šú‰»
-	std::unique_ptr<EnemyBullet> newBullet = std::make_unique<EnemyBullet>();
+	//å·®åˆ†ãƒ™ã‚¯ãƒˆãƒ«ã‚’æ±‚ã‚ã‚‹
+	distance = playerPosition - enemyPosition;
 
-	//ƒN[ƒ‹ƒ^ƒCƒ€‚ª‚O‚É‚È‚Á‚½‚Æ‚«
-	if (coolTimer <= 0)
-	{
-		// “GƒLƒƒƒ‰‚ÌÀ•W‚ğƒRƒs[
-		Vector3 position = worldTransform_.translation_;
-		Vector3 velocity(0, 0, kBulletSpeed);
-		newBullet->Initialize(model_, position, velocity);
-		// ’e‚ğ“o˜^‚·‚é
+	//é•·ã•ã‚’æ±‚ã‚ã‚‹
+	Vector3Length(distance);
+	//æ­£è¦åŒ–
+	Vector3Normalize(distance);
+	//ãƒ™ã‚¯ãƒˆãƒ«ã®é•·ã•ã‚’,é€Ÿã•ã«åˆã‚ã›ã‚‹
+	distance *= kBulletSpeed;	//ã“ã‚ŒãŒé€Ÿåº¦ã«ãªã‚‹
+
+	if (dalayTimer <= 0) {
+
+		// å¼¾ã‚’ç”Ÿæˆã—ã€åˆæœŸåŒ–
+		std::unique_ptr<EnemyBullet> newBullet = std::make_unique<EnemyBullet>();
+		newBullet->Initialize(model_, worldTransform_.translation_, distance);
+		// å¼¾ã‚’ç™»éŒ²ã™ã‚‹
 		bullets_.push_back(std::move(newBullet));
-		coolTimer = 20.0f;
+		dalayTimer = 25.0f;
 	}
 }
 
@@ -95,44 +91,44 @@ void Enemy::UpDate()
 {
 	MyFunc::Matrix4(worldTransform_, 0);
 	switch (phase_) {
-	case Phase::Approach://Ú‹ßƒtƒF[ƒY
+	case Phase::Approach://æ¥è¿‘ãƒ•ã‚§ãƒ¼ã‚º
 	default:
-		//ˆÚ“®
+		//ç§»å‹•
 		Approach();
 		break;
 
-	case Phase::Leave://—£’EƒtƒF[ƒY
+	case Phase::Leave://é›¢è„±ãƒ•ã‚§ãƒ¼ã‚º
 		Leave();
 		break;
 	}
 	Fire();
 	DeleteBullet();
-	// ’eXV
+	// å¼¾æ›´æ–°
 	for (std::unique_ptr<EnemyBullet>& bullet : bullets_) { bullet->Update(); }
 
-	// ‚Å‚·ƒtƒ‰ƒO‚Ì—§‚Á‚½’e‚ğíœ
+	// ã§ã™ãƒ•ãƒ©ã‚°ã®ç«‹ã£ãŸå¼¾ã‚’å‰Šé™¤
 //	bullets_.remove_if([](std::unique_ptr<EnemyBullet>& bullet) {return bullet->IsDead(); });
 }
 
 void Enemy::DeleteBullet()
 {
-	// ƒfƒXƒtƒ‰ƒO‚Ì—§‚Á‚½’e‚ğíœ
+	// ãƒ‡ã‚¹ãƒ•ãƒ©ã‚°ã®ç«‹ã£ãŸå¼¾ã‚’å‰Šé™¤
 	bullets_.remove_if([](std::unique_ptr<EnemyBullet>& bullet) {return bullet->IsDead(); });
 }
 
 void Enemy::Draw(ViewProjection viewProjection)
 {
 	model_->Draw(worldTransform_, viewProjection, textureHandle_);
-	// ’e•`‰æ
+	// å¼¾æç”»
 	for (std::unique_ptr<EnemyBullet>& bullet : bullets_) { bullet->Draw(viewProjection); }
 }
 
 Vector3 Enemy::GetWorldPosition()
 {
-	//ƒ[ƒ‹ƒhÀ•W‚ğ“ü‚ê‚é‚½‚ß‚Ì•Ï”
+	//ãƒ¯ãƒ¼ãƒ«ãƒ‰åº§æ¨™ã‚’å…¥ã‚Œã‚‹ãŸã‚ã®å¤‰æ•°
 	Vector3 worldPos;
 
-	//ƒ[ƒ‹ƒhs—ñ‚Ì•½sˆÚ“®¬•ª‚ğæ“¾
+	//ãƒ¯ãƒ¼ãƒ«ãƒ‰è¡Œåˆ—ã®å¹³è¡Œç§»å‹•æˆåˆ†ã‚’å–å¾—
 	worldPos.x = worldTransform_.matWorld_.m[3][0];
 	worldPos.y = worldTransform_.matWorld_.m[3][1];
 	worldPos.z = worldTransform_.matWorld_.m[3][2];
