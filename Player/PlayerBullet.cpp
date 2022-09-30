@@ -39,3 +39,8 @@ Vector3 PlayerBullet::GetWorldPosition()
 	worldPos = worldTransform_.translation_;
 	return worldPos;
 }
+
+Matrix4 PlayerBullet::GetMatrix()
+{
+	return worldTransform_.matWorld_;
+}

@@ -23,6 +23,36 @@ void Enemy::Initialize(Model* model, uint32_t textureHandle)
 	worldTransform_.translation_ = { trans(engin), trans(engin), 50 };
 }
 
+void Enemy::UpDate()
+{
+	MyFunc::Matrix4(worldTransform_, 0);
+	switch (phase_) {
+	case Phase::Approach://接近フェーズ
+	default:
+		//移動
+		Approach();
+		break;
+
+	case Phase::Leave://離脱フェーズ
+		Leave();
+		break;
+	}
+	DeleteBullet();
+	Fire();
+	// 弾更新
+	for (std::unique_ptr<EnemyBullet>& bullet : bullets_) { bullet->Update(); }
+
+	// ですフラグの立った弾を削除
+//	bullets_.remove_if([](std::unique_ptr<EnemyBullet>& bullet) {return bullet->IsDead(); });
+}
+
+void Enemy::Draw(ViewProjection viewProjection)
+{
+	model_->Draw(worldTransform_, viewProjection, textureHandle_);
+	//弾描画
+	for (std::unique_ptr<EnemyBullet>& bullet : bullets_) { bullet->Draw(viewProjection); }
+}
+
 void Enemy::Approach()
 {
 	//接近速度
@@ -85,42 +115,10 @@ void Enemy::Fire()
 
 void Enemy::OnCollision() {}
 
-
-
-void Enemy::UpDate()
-{
-	MyFunc::Matrix4(worldTransform_, 0);
-	switch (phase_) {
-	case Phase::Approach://接近フェーズ
-	default:
-		//移動
-		Approach();
-		break;
-
-	case Phase::Leave://離脱フェーズ
-		Leave();
-		break;
-	}
-	Fire();
-	DeleteBullet();
-	// 弾更新
-	for (std::unique_ptr<EnemyBullet>& bullet : bullets_) { bullet->Update(); }
-
-	// ですフラグの立った弾を削除
-//	bullets_.remove_if([](std::unique_ptr<EnemyBullet>& bullet) {return bullet->IsDead(); });
-}
-
 void Enemy::DeleteBullet()
 {
 	// デスフラグの立った弾を削除
 	bullets_.remove_if([](std::unique_ptr<EnemyBullet>& bullet) {return bullet->IsDead(); });
-}
-
-void Enemy::Draw(ViewProjection viewProjection)
-{
-	model_->Draw(worldTransform_, viewProjection, textureHandle_);
-	// 弾描画
-	for (std::unique_ptr<EnemyBullet>& bullet : bullets_) { bullet->Draw(viewProjection); }
 }
 
 Vector3 Enemy::GetWorldPosition()
@@ -134,4 +132,9 @@ Vector3 Enemy::GetWorldPosition()
 	worldPos.z = worldTransform_.matWorld_.m[3][2];
 
 	return worldPos;
+}
+
+Matrix4 Enemy::GetMatrix()
+{
+	return worldTransform_.matWorld_;
 }

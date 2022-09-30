@@ -26,6 +26,7 @@ void EnemyBullet::Draw(const ViewProjection& viewProjection)
 {
 	model_->Draw(worldTransform_, viewProjection, textureHandle_);
 }
+
 void EnemyBullet::OnCollision()
 {
 	isDead_ = true;
@@ -37,4 +38,9 @@ Vector3 EnemyBullet::GetWorldPosition()
 	// ワールド行列の平行移動成分を取得
 	worldPos = worldTransform_.translation_;
 	return worldPos;
+}
+
+Matrix4 EnemyBullet::GetMatrix()
+{
+	return worldTransform_.matWorld_;
 }

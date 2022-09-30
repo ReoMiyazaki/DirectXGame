@@ -14,6 +14,9 @@
 #include "ViewProjection.h"
 #include "WorldTransform.h"
 
+#include <DirectXMath.h>
+
+
 /// <summary>
 /// ゲームシーン
 /// </summary>
@@ -48,7 +51,7 @@ public: // メンバ関数
 	/// <summary>
 	/// 衝突判定と応答
 	/// </summary>
-	void CheckAllCollision();
+	void CheckAllCollisions();
 
 private: // メンバ変数
 	DirectXCommon* dxCommon_ = nullptr;
