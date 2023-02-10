@@ -22,7 +22,7 @@ Matrix4 affine::generatScaleMat(WorldTransform& worldTransform)
 	matScale.m[0][0] = worldTransform.scale_.x;
 	matScale.m[1][1] = worldTransform.scale_.y;
 	matScale.m[2][2] = worldTransform.scale_.z;
-	
+
 	return matScale;
 }
 
@@ -49,10 +49,10 @@ Matrix4 affine::generatRotateXMat(WorldTransform& worldTransform)
 	// Xé≤âÒì]çsóÒÇêÈåæ
 	Matrix4 matRotX =
 	{
-	1.0f, 0.0f, 0.0f, 0.0f,
-	0.0f, 1.0f, 0.0f, 0.0f,
-	0.0f, 0.0f, 1.0f, 0.0f,
-	0.0f, 0.0f, 0.0f, 1.0f
+		1.0f, 0.0f, 0.0f, 0.0f,
+		0.0f, 1.0f, 0.0f, 0.0f,
+		0.0f, 0.0f, 1.0f, 0.0f,
+		0.0f, 0.0f, 0.0f, 1.0f
 	};
 	matRotX.m[1][1] = cos(worldTransform.rotation_.x);
 	matRotX.m[1][2] = sin(worldTransform.rotation_.x);
@@ -67,10 +67,10 @@ Matrix4 affine::generatRotateYMat(WorldTransform& worldTransform)
 	// Yé≤âÒì]çsóÒÇêÈåæ
 	Matrix4 matRotY =
 	{
-	1.0f, 0.0f, 0.0f, 0.0f,
-	0.0f, 1.0f, 0.0f, 0.0f,
-	0.0f, 0.0f, 1.0f, 0.0f,
-	0.0f, 0.0f, 0.0f, 1.0f
+		1.0f, 0.0f, 0.0f, 0.0f,
+		0.0f, 1.0f, 0.0f, 0.0f,
+		0.0f, 0.0f, 1.0f, 0.0f,
+		0.0f, 0.0f, 0.0f, 1.0f
 	};
 	matRotY.m[0][0] = cos(worldTransform.rotation_.y);
 	matRotY.m[0][2] = -sin(worldTransform.rotation_.y);
@@ -78,7 +78,7 @@ Matrix4 affine::generatRotateYMat(WorldTransform& worldTransform)
 	matRotY.m[2][2] = cos(worldTransform.rotation_.y);
 
 	return matRotY;
-	
+
 }
 
 Matrix4 affine::generatRotateZMat(WorldTransform& worldTransform)
@@ -86,10 +86,10 @@ Matrix4 affine::generatRotateZMat(WorldTransform& worldTransform)
 	// Zé≤âÒì]çsóÒÇêÈåæ
 	Matrix4 matRotZ =
 	{
-	1.0f, 0.0f, 0.0f, 0.0f,
-	0.0f, 1.0f, 0.0f, 0.0f,
-	0.0f, 0.0f, 1.0f, 0.0f,
-	0.0f, 0.0f, 0.0f, 1.0f
+		1.0f, 0.0f, 0.0f, 0.0f,
+		0.0f, 1.0f, 0.0f, 0.0f,
+		0.0f, 0.0f, 1.0f, 0.0f,
+		0.0f, 0.0f, 0.0f, 1.0f
 	};
 	matRotZ.m[0][0] = cos(worldTransform.rotation_.z);
 	matRotZ.m[0][1] = sin(worldTransform.rotation_.z);
@@ -113,7 +113,7 @@ Matrix4 affine::generatTransformMat(WorldTransform& worldTransform)
 	matTrans.m[3][0] = worldTransform.translation_.x;
 	matTrans.m[3][1] = worldTransform.translation_.y;
 	matTrans.m[3][2] = worldTransform.translation_.z;
-	
+
 	return matTrans;
 }
 
